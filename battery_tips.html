@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صُن بطارية جهازك المدرسي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #020617 0%, #0c1628 50%, #020617 100%);
+    padding: 32px 20px;
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+  }
+
+  .header { text-align: center; margin-bottom: 36px; }
+
+  .school-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    padding: 8px 24px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: clamp(22px, 5vw, 34px);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+    text-shadow: 0 0 40px rgba(34,197,94,0.4);
+  }
+
+  .subtitle { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 16px; }
+
+  .dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 6px; }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.3s;
+  }
+
+  .progress-text { color: rgba(255,255,255,0.4); font-size: 12px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .card-wrap { perspective: 1000px; cursor: pointer; }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .card-wrap.flipped .card-inner { transform: rotateY(180deg); }
+
+  .card-front, .card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-front { position: relative; }
+  .card-back { transform: rotateY(180deg); background: #0f172a; }
+
+  .circle1, .circle2 {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .circle1 { top: -30px; left: -30px; width: 120px; height: 120px; }
+  .circle2 { bottom: -20px; right: -20px; width: 80px; height: 80px; }
+
+  .front-header { display: flex; justify-content: space-between; align-items: flex-start; }
+
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+
+  .step-emoji { font-size: 38px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
+  .step-num {
+    position: absolute;
+    top: 16px; left: 20px;
+    font-size: 64px;
+    font-weight: 900;
+    font-family: monospace;
+    line-height: 1;
+    user-select: none;
+    opacity: 0.2;
+    color: #fff;
+  }
+
+  .front-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+  .front-sub { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+  .tap-hint { display: flex; align-items: center; gap: 6px; justify-content: flex-end; font-size: 11px; color: rgba(255,255,255,0.5); }
+
+  .glow-line {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 2px;
+  }
+
+  .back-header { display: flex; justify-content: space-between; align-items: center; }
+
+  .back-icon { font-size: 28px; }
+
+  .back-label {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-family: monospace;
+  }
+
+  .back-tip {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+    margin: 16px 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .back-footer { display: flex; justify-content: flex-end; align-items: center; gap: 6px; font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  .footer { text-align: center; color: rgba(255,255,255,0.25); font-size: 12px; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="school-badge">🔋 مدرسة مدينة الشامخة</div>
+  <h1>صُن بطارية جهازك المدرسي</h1>
+  <p class="subtitle">اضغط على أي بطاقة لعرض التفاصيل</p>
+  <div class="dots" id="dots"></div>
+  <p class="progress-text" id="progressText">0 / 8 نصائح تمت قراءتها</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<p class="footer">"معاً نحو علم يرتقي ووطن يزدهر" 🇦🇪</p>
+
+<script>
+const steps = [
+  {
+    id:"01", emoji:"🔋", title:"إعتنِ ببطارية جهازك",
+    subtitle:"صحة البطارية وإطالة عمرها",
+    tip:"البطارية هي قلب جهازك المدرسي. الاهتمام بها من البداية يضمن لك أداءً مستمراً طوال العام الدراسي.",
+    color:"#22c55e", icon:"🌟", badge:"نصيحة أساسية",
+    bg:"linear-gradient(135deg,#14532d,#16a34a)"
+  },
+  {
+    id:"02", emoji:"🔌", title:"افصل الشاحن عند 100%",
+    subtitle:"لا تترك الشاحن موصلاً بعد اكتمال الشحن",
+    tip:"بمجرد وصول الشحن إلى 100%، افصل الشاحن فوراً. الشحن الزائد يُتلف خلايا البطارية ويُقصّر عمرها بشكل كبير.",
+    color:"#f59e0b", icon:"⚡", badge:"تحذير مهم",
+    bg:"linear-gradient(135deg,#78350f,#d97706)"
+  },
+  {
+    id:"03", emoji:"❄️", title:"حافظ على برودة جهازك",
+    subtitle:"السطح المستوي أثناء الاستخدام",
+    tip:"ضع جهازك دائماً على سطح صلب ومستوٍ لضمان تدفق الهواء. تجنب استخدامه على الوسائد أو الأسطح الناعمة التي تحجب فتحات التهوية.",
+    color:"#06b6d4", icon:"🌬️", badge:"للحماية",
+    bg:"linear-gradient(135deg,#164e63,#0891b2)"
+  },
+  {
+    id:"04", emoji:"⚠️", title:"تجنب الاستخدام المكثف أثناء الشحن",
+    subtitle:"استخدم الجهاز للأعمال الروتينية فقط",
+    tip:"تشغيل برامج ثقيلة أثناء الشحن يرفع درجة حرارة البطارية. خصّص وقت الشحن للراحة، واستخدم الجهاز لمهام خفيفة فقط.",
+    color:"#ef4444", icon:"🚫", badge:"تجنّب",
+    bg:"linear-gradient(135deg,#7f1d1d,#dc2626)"
+  },
+  {
+    id:"05", emoji:"📉", title:"لا تُفرغ البطارية تماماً",
+    subtitle:"ابدأ الشحن عند وصوله إلى 20%",
+    tip:"عندما تصل البطارية إلى 20%، حان وقت الشحن. التفريغ الكامل المتكرر يُضعف البطارية ويُقلل من سعتها الكلية مع الوقت.",
+    color:"#8b5cf6", icon:"🔔", badge:"تذكّر",
+    bg:"linear-gradient(135deg,#4c1d95,#7c3aed)"
+  },
+  {
+    id:"06", emoji:"🌡️", title:"تحسين بيئة التشغيل",
+    subtitle:"احفظ جهازك من درجات الحرارة المرتفعة",
+    tip:"تجنب ترك الجهاز في أماكن حارة كالسيارة أو تحت أشعة الشمس. الحرارة الزائدة هي العدو الأول للبطارية وتُسرّع تدهورها.",
+    color:"#f97316", icon:"🌞", badge:"بيئة التشغيل",
+    bg:"linear-gradient(135deg,#7c2d12,#ea580c)"
+  },
+  {
+    id:"07", emoji:"💡", title:"تحسين استهلاك الطاقة",
+    subtitle:"خفض السطوع واستخدام أوضاع توفير الطاقة",
+    tip:"خفّض سطوع الشاشة إلى مستوى مريح، وفعّل وضع توفير الطاقة عند الحاجة. هذه الخطوات تُطيل عمر كل شحنة وتحمي البطارية على المدى الطويل.",
+    color:"#eab308", icon:"🌙", badge:"توفير الطاقة",
+    bg:"linear-gradient(135deg,#713f12,#ca8a04)"
+  },
+  {
+    id:"08", emoji:"🔄", title:"حدّث نظام التشغيل بانتظام",
+    subtitle:"التحديث الدوري يضمن أداءً أفضل للبطارية",
+    tip:"التحديثات الدورية لا تجلب ميزات جديدة فحسب، بل تتضمن تحسينات في كفاءة استهلاك الطاقة تجعل جهازك أكثر ذكاءً في استخدام بطاريته.",
+    color:"#3b82f6", icon:"✅", badge:"الصيانة الدورية",
+    bg:"linear-gradient(135deg,#1e3a8a,#2563eb)"
+  }
+];
+
+const flipped = {};
+let readCount = 0;
+
+function updateProgress() {
+  const count = Object.values(flipped).filter(Boolean).length;
+  document.getElementById('progressText').textContent = `${count} / 8 نصائح تمت قراءتها`;
+  const dots = document.querySelectorAll('.dot');
+  steps.forEach((s, i) => {
+    dots[i].style.background = flipped[s.id] ? s.color : 'rgba(255,255,255,0.2)';
+  });
+}
+
+const grid = document.getElementById('grid');
+const dotsEl = document.getElementById('dots');
+
+steps.forEach(s => {
+  // dot
+  const dot = document.createElement('div');
+  dot.className = 'dot';
+  dotsEl.appendChild(dot);
+
+  // card
+  const wrap = document.createElement('div');
+  wrap.className = 'card-wrap';
+  wrap.innerHTML = `
+    <div class="card-inner">
+      <div class="card-front" style="background:${s.bg}; box-shadow:0 8px 32px ${s.color}44; border:1px solid ${s.color}55;">
+        <div class="circle1" style="background:${s.color}22;"></div>
+        <div class="circle2" style="background:${s.color}22;"></div>
+        <div class="front-header">
+          <span class="badge" style="background:${s.color}33;border:1px solid ${s.color}66;color:${s.color};">${s.badge}</span>
+          <span class="step-emoji">${s.emoji}</span>
+        </div>
+        <div class="step-num">${s.id}</div>
+        <div>
+          <div class="front-title">${s.title}</div>
+          <div class="front-sub">${s.subtitle}</div>
+        </div>
+        <div class="tap-hint"><span>اضغط لمعرفة التفاصيل</span><span>👆</span></div>
+      </div>
+      <div class="card-back" style="border:2px solid ${s.color}; box-shadow:0 8px 32px ${s.color}44;">
+        <div class="glow-line" style="background:linear-gradient(90deg,transparent,${s.color},transparent);"></div>
+        <div class="back-header">
+          <span class="back-icon">${s.icon}</span>
+          <span class="back-label" style="color:${s.color};background:${s.color}22;">نصيحة #${s.id}</span>
+        </div>
+        <p class="back-tip">${s.tip}</p>
+        <div class="back-footer"><span>اضغط للعودة</span><span>🔄</span></div>
+      </div>
+    </div>
+  `;
+
+  wrap.addEventListener('click', () => {
+    flipped[s.id] = !flipped[s.id];
+    wrap.classList.toggle('flipped', flipped[s.id]);
+    updateProgress();
+  });
+
+  grid.appendChild(wrap);
+});
+
+updateProgress();
+</script>
+</body>
+</html>
